@@ -1,99 +1,38 @@
 import streamlit as st
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Title and Header with Space Theme
-st.markdown(
-    """
-    <style>
-    .main-title {
-        font-size: 48px;
-        font-weight: bold;
-        color: #ffffff;
-        text-align: center;
-        background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
-        padding: 20px;
-        border-radius: 10px;
-    }
-    .sidebar .sidebar-content {
-        background-color: #1c1c1c !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# App Title
+st.title("🏄‍♂️ Fun with Bernoulli's Principle!")
+st.subheader("Learn physics with laughter and fun!")
 
-st.markdown('<div class="main-title">Cosmology Learning Portal 🌌</div>', unsafe_allow_html=True)
+# Sidebar Controls
+st.sidebar.title("Adjust the Simulation")
+air_speed = st.sidebar.slider("Air Speed (m/s)", 1, 100, 10)
+pipe_radius = st.sidebar.slider("Pipe Radius (cm)", 1, 10, 5)
 
-# Sidebar Navigation
-st.sidebar.title("🔭 Navigation")
-page = st.sidebar.radio(
-    "Choose a section:",
-    ["Home", "Cosmic Documents", "Simulations", "Space Videos"]
-)
+# Calculation
+pipe_area = np.pi * (pipe_radius / 100)**2
+pressure = 101325 - 0.5 * 1.225 * air_speed**2  # Bernoulli's equation
 
-# Background image
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-image: url('https://www.nasa.gov/sites/default/files/thumbnails/image/stsci-h-p2001a-m-2000x1500_0.png');
-        background-size: cover;
-        color: white;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# Funny Explanation
+st.write(f"💨 When air speed is **{air_speed} m/s**, the pressure drops to **{int(pressure)} Pa**!")
+st.write("The faster the air, the lower the pressure. Remember, **air molecules** are like racing chickens 🐓—the faster they run, the less they press down!")
 
-# Home Page
-if page == "Home":
-    st.subheader("Welcome to the Universe of Learning")
-    st.write("""
-        Explore the mysteries of the cosmos! This portal offers resources, simulations, 
-        and videos to guide your journey into the universe.
-    """)
-    st.image(
-        "https://cdn.pixabay.com/photo/2013/07/18/20/25/galaxy-164097_960_720.jpg",
-        caption="The Vast Universe Awaits",
-        use_column_width=True,
-    )
+# Visualization
+x = np.linspace(0, 10, 100)
+y = 1 / (x + 1)
+fig, ax = plt.subplots()
+ax.plot(x, y, label="Pressure vs. Speed", color="dodgerblue")
+ax.set_xlabel("Speed (m/s)")
+ax.set_ylabel("Pressure (Pa)")
+ax.legend()
+st.pyplot(fig)
 
-# Cosmic Documents Page
-elif page == "Cosmic Documents":
-    st.subheader("🌌 Cosmic Documents")
-    uploaded_files = st.file_uploader("Upload cosmic files to share:", accept_multiple_files=True)
-    if uploaded_files:
-        for file in uploaded_files:
-            st.write(f"Uploaded: {file.name}")
-            st.download_button(label="Download", data=file, file_name=file.name)
+# Funny Animation (Static for now)
+st.image("https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.gif", caption="Molecules having a race!")
 
-    st.write("## Shared Documents:")
-    st.markdown("[Astronomy Lecture Notes (PDF)](https://example.com/astronomy-notes)")
-    st.markdown("[Star Chart (PDF)](https://example.com/star-chart)")
-
-# Simulations Page
-elif page == "Simulations":
-    st.subheader("🚀 Explore the Universe with Simulations")
-    st.write("### Simulation 1: Gravity and Orbital Motion")
-    st.markdown("[Open Simulation](https://example.com/gravity-simulation)")
-
-    st.write("### Simulation 2: Black Hole Explorer")
-    st.markdown("[Open Simulation](https://example.com/black-hole-simulation)")
-
-    st.image(
-        "https://cdn.pixabay.com/photo/2014/09/07/22/36/black-hole-438428_960_720.jpg",
-        caption="Simulate and Learn",
-        use_column_width=True,
-    )
-
-# Space Videos Page
-elif page == "Space Videos":
-    st.subheader("🌠 Space Exploration Videos")
-    st.video("https://www.youtube.com/watch?v=GO5FwsblpT8")  # Replace with a relevant link
-    st.video("https://www.youtube.com/watch?v=9zA-rZQB-xk")  # Replace with another link
-
-    st.write("### More Cosmic Videos:")
-    st.markdown("- [Hubble Telescope Journey](https://www.youtube.com/watch?v=GO5FwsblpT8)")
-    st.markdown("- [The Scale of the Universe](https://www.youtube.com/watch?v=9zA-rZQB-xk)")
-
-# Footer
-st.sidebar.info("🚀 Created by Your Name - Exploring the Cosmos")
+# Embed Educational Videos
+st.markdown("### Learn More:")
+st.markdown("- [Bernoulli's Principle in Action](https://www.youtube.com/watch?v=STIV3A8kExk)")
+st.markdown("- [Why Planes Fly - A Funny Explanation](https://www.youtube.com/watch?v=Gg0TXNXgz-w)")
